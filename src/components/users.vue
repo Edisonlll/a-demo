@@ -31,9 +31,16 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200">
-        <template slot-scope>
+        <template slot-scope="scope">
           <el-button type="primary" icon="el-icon-edit" circle size="mini" plain></el-button>
-          <el-button type="danger" icon="el-icon-delete" circle size="mini" plain></el-button>
+          <el-button
+            type="danger"
+            icon="el-icon-delete"
+            circle
+            size="mini"
+            plain
+            @click="showdeldia(scope.row)"
+          ></el-button>
           <el-button type="success" icon="el-icon-check" circle size="mini" plain></el-button>
         </template>
       </el-table-column>
@@ -102,6 +109,26 @@ export default {
     this.getTableData();
   },
   methods: {
+    showdeldia(users) {
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(async () => {
+          const res = await this.$http.delete(`users/${users.id}`)
+          const {meta:{msg,status}} = res.data
+          if(status===200){
+            this.$message.success(msg)
+            this.pagenum = 1
+            this.getTableData()
+            
+          }
+        })
+        .catch(() => {
+          this.$message.info('已取消删除');
+        });
+    },
     async Adduser() {
       const res = await this.$http.post(`users`, this.formdata);
       const {
@@ -114,10 +141,6 @@ export default {
 
       if (status === 201) {
         this.dialogFormVisibleAdd = false;
-        this.formdata.username = "";
-        this.formdata.password = "";
-        this.formdata.email = "";
-        this.formdata.mobile = "";
         this.$message.success(msg);
         this.getTableData();
       } else {
@@ -126,6 +149,7 @@ export default {
     },
     showAddUsers() {
       this.dialogFormVisibleAdd = true;
+      this.formdata = {};
     },
     getAlluser() {
       this.getTableData();
