@@ -125,7 +125,7 @@
           <el-select v-model="selectVal" placeholder="请选择角色">
             <el-option label="请选择" :value="-1" disabled></el-option>
             <el-option
-              v-for="(item,i) in roles"
+              v-for="(item) in roles"
               :key="item.id"
               :label="item.roleName"
               :value="item.id"
