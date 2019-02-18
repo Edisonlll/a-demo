@@ -9,7 +9,7 @@ Vue.config.productionTip = false
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import CusBread from './components/cusBread.vue'
-import HttpServer from '@/http.js'
+import HttpServer from './http'
 Vue.use(HttpServer)
 Vue.use(ElementUI)
 Vue.filter('fmtdate', (v) => {
