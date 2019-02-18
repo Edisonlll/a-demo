@@ -62,7 +62,7 @@ export default {
   methods: {
     async getmenu() {
       const res = await this.$http.get(`menus`);
-      console.log(res);
+      // console.log(res);
       const {
         data,
         meta: { msg, status }
