@@ -210,6 +210,7 @@ export default {
         `users/${this.formdata.id}`,
         this.formdata
       );
+      console.log(this.formdata.id)
       const {
         meta: { msg, status }
       } = res.data;
@@ -217,11 +218,15 @@ export default {
         this.dialogFormVisibleEdit = false;
         this.getTableData();
         this.$message.success(msg);
+      }else {
+        this.$message.error(msg)
       }
     },
-    showDiaEditUser(users) {
+    async showDiaEditUser(users) {
       this.dialogFormVisibleEdit = true;
-      this.formdata = users;
+      const res = await this.$http.get(`users/${users.id}`)
+      console.log(res)
+      this.formdata = res.data.data
     },
     showdeldia(users) {
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
