@@ -51,11 +51,28 @@
             circle
             size="mini"
             plain
-            @click="showDiaSetRole(scope.row)"
+            @click="showDiaSetRights(scope.row)"
           ></el-button>
         </template>
       </el-table-column>
     </el-table>
+
+    <!-- 对话框 -->
+    <el-dialog title="分配权限" :visible.sync="dialogFormVisible">
+      <el-tree
+        ref="treeDom"
+        :data="treelist"
+        :props="defaultProps"
+        node-key="id"
+        :default-checked-keys="checkArr"
+        default-expand-all
+        show-checkbox
+      ></el-tree>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="setRights()">确 定</el-button>
+      </div>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -63,13 +80,66 @@
 export default {
   data() {
     return {
-      roles: []
+      roles: [],
+      treelist: [],
+      dialogFormVisible: false,
+      checkArr: [],
+      defaultProps: {
+        label: "authName",
+        children: "children"
+      },
+      currRoleId: -1
     };
   },
   created() {
     this.getRolesTable();
   },
   methods: {
+    async setRights() {
+      const arr1 = this.$refs.treeDom.getCheckedKeys();
+      // console.log(arr1);
+      
+      const arr2 = this.$refs.treeDom.getHalfCheckedKeys();
+      //  console.log(arr2);
+      const arr = [...arr1, ...arr2];
+      //  console.log(arr);
+      const res = await this.$http.post(`roles/${this.currRoleId}/rights`, {
+        rids: arr.join(",")
+      });
+      // console.log(res);
+      
+      const {
+        meta: { msg, status },
+        data
+      } = res.data;
+      if (status === 200) {
+        this.dialogFormVisible = false;
+        this.getRolesTable();
+        this.$message.success(msg)
+      }
+    },
+    async showDiaSetRights(role) {
+      this.currRoleId = role.id
+      const res = await this.$http.get(`rights/tree`);
+      // console.log(res);
+      const {
+        data,
+        meta: { msg, status }
+      } = res.data;
+      if (status === 200) {
+        this.treelist = data;
+        const temp = [];
+        role.children.forEach(item1 => {
+          item1.children.forEach(item2 => {
+            item2.children.forEach(item3 => {
+              temp.push(item3.id);
+            });
+          });
+        });
+        this.checkArr = temp;
+        this.dialogFormVisible = true;
+      }
+    },
     async deltag(role, rights) {
       const res = await this.$http.delete(
         `roles/${role.id}/rights/${rights.id}`
@@ -78,9 +148,9 @@ export default {
         data,
         meta: { status, msg }
       } = res.data;
-      if(status===200){
-        this.$message.success(msg)
-        role.children = data
+      if (status === 200) {
+        this.$message.success(msg);
+        role.children = data;
       }
     },
     showRole() {},
