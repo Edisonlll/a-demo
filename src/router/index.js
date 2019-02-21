@@ -7,6 +7,7 @@ import Rights from '../components/rights.vue'
 import Roles from '../components/roles.vue'
 import Goods from '../components/goods.vue'
 import Goodsadd from '../components/goodsadd.vue'
+import Params from '../components/params.vue'
 import {
   Message
 } from 'element-ui';
@@ -47,6 +48,11 @@ const router = new Router({
         name: 'goodsadd',
         path: '/goodsadd',
         component: Goodsadd
+      },
+      {
+        name: 'params',
+        path: '/params',
+        component: Params
       }]
     }
   ]
