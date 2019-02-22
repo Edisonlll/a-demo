@@ -17,7 +17,7 @@
       </el-input>
       <el-button type="primary" plain @click="showAddUsers()">添加用户</el-button>
     </el-row>
-    <el-table :data="list" style="width: 100%" height="300px">
+    <el-table :data="list" style="width: 100%" height="300px" v-loading="loading">
       <el-table-column prop="id" label="#" width="80"></el-table-column>
       <el-table-column prop="username" label="姓名" width="120"></el-table-column>
       <el-table-column prop="email" label="邮箱" width="140"></el-table-column>
@@ -161,7 +161,8 @@ export default {
         mobile: ""
       },
       currUsersId: -1,
-      roles: []
+      roles: [],
+      loading: true
     };
   },
   created() {
@@ -210,7 +211,7 @@ export default {
         `users/${this.formdata.id}`,
         this.formdata
       );
-      console.log(this.formdata.id)
+      console.log(this.formdata.id);
       const {
         meta: { msg, status }
       } = res.data;
@@ -218,15 +219,15 @@ export default {
         this.dialogFormVisibleEdit = false;
         this.getTableData();
         this.$message.success(msg);
-      }else {
-        this.$message.error(msg)
+      } else {
+        this.$message.error(msg);
       }
     },
     async showDiaEditUser(users) {
       this.dialogFormVisibleEdit = true;
-      const res = await this.$http.get(`users/${users.id}`)
-      console.log(res)
-      this.formdata = res.data.data
+      const res = await this.$http.get(`users/${users.id}`);
+      console.log(res);
+      this.formdata = res.data.data;
     },
     showdeldia(users) {
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
@@ -304,6 +305,7 @@ export default {
       if (status === 200) {
         this.total = data.total;
         this.list = data.users;
+        this.loading=false
       }
     }
   }

@@ -13,7 +13,7 @@
     </el-row>
 
     <!-- 表格 -->
-    <el-table height="450px" border stripe :data="list" style="width: 100%">
+    <el-table height="450px" border stripe :data="list" style="width: 100%" v-loading="loading">
       <!-- 序号 -->
       <el-table-column type="index"></el-table-column>
 
@@ -28,7 +28,7 @@
       </el-table-column>
 
       <el-table-column label="操作" width="100">
-        <template slot-scope="">
+        <template slot-scope>
           <el-button plain size="mini" type="primary" icon="el-icon-edit" circle></el-button>
           <el-button plain size="mini" type="danger" icon="el-icon-delete" circle></el-button>
         </template>
@@ -56,7 +56,8 @@ export default {
       list: [],
       pagenum: 1,
       pagesize: 10,
-      total: 0
+      total: 0,
+      loading: true
     };
   },
   created() {
@@ -82,6 +83,7 @@ export default {
       this.total = resData.data.total;
       this.list = resData.data.goods;
       // console.log(this.list)
+      this.loading = false
     }
   }
 };

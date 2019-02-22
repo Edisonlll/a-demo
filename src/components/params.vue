@@ -18,7 +18,7 @@
     <el-tabs v-model="active" @tab-click="changeTab()">
       <el-tab-pane label="动态参数" name="1">
         <el-button size="mini" type="primary" disabled>设置动态参数</el-button>
-        <el-table :data="arrDT" style="width: 100%" height="300px">
+        <el-table :data="arrDT" style="width: 100%" height="300px" >
           <el-table-column type="expand" width="50">
             <template slot-scope="scope">
               <el-tag
@@ -82,7 +82,8 @@ export default {
       arrDT: [],
       arrJT: [],
       inputVisible: false,
-      inputValue: ""
+      inputValue: "",
+    
     };
   },
   created() {
@@ -126,6 +127,7 @@ export default {
         // console.log(res);
         if (status === 200) {
           this.arrDT = data;
+        
           this.arrDT.forEach(item => {
             item.attr_vals =
               item.attr_vals.trim().length === 0

@@ -2,7 +2,7 @@
   <el-card class="box">
     <cus-bread level1="权限管理" level2="角色列表"></cus-bread>
     <el-button type="primary" plain @click="showRole()" class="addrole">添加角色</el-button>
-    <el-table :data="roles" style="width: 100%" height="300px">
+    <el-table :data="roles" style="width: 100%" height="300px" v-loading="loading">
       <el-table-column type="expand" width="80">
         <template slot-scope="scope">
           <el-row class="level1" v-for="item1 in scope.row.children" :key="item1.id">
@@ -88,7 +88,8 @@ export default {
         label: "authName",
         children: "children"
       },
-      currRoleId: -1
+      currRoleId: -1,
+      loading:true
     };
   },
   created() {
@@ -163,6 +164,7 @@ export default {
       } = res.data;
       if (status === 200) {
         this.roles = data;
+        this.loading = false
       }
     }
   }

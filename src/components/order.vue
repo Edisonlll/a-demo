@@ -1,7 +1,7 @@
 <template>
   <el-card class="box">
     <cus-bread level1="订单管理" level2="订单列表"></cus-bread>
-    <el-table :data="list" style="width: 100% " height="500px" >
+    <el-table :data="list" style="width: 100% " height="500px" v-loading="loading">
       <el-table-column type="index" label="#" width="40"></el-table-column>
       <el-table-column prop="order_number" label="订单编号" width="270"></el-table-column>
       <el-table-column prop="order_price" label="订单价格" width="100"  align="center"></el-table-column>
@@ -64,7 +64,8 @@ export default {
       // 级联选择器要绑定的数据
 
       catlist: [],
-      selectedOptions: []
+      selectedOptions: [],
+      loading:true
     };
   },
   created() {
@@ -75,6 +76,7 @@ export default {
       const res = await this.$http.get(`orders?pagenum=1&pagesize=10`);
       // console.log(res);
       this.list = res.data.data.goods;
+      this.loading = false
     },
     showEditdia() {
       this.catlist = cityArr;

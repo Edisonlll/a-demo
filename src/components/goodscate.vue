@@ -34,7 +34,7 @@
       </div>
     </el-dialog>
     <!-- 表格 -->
-    <el-table height="400" :data="list" style="width: 100%">
+    <el-table height="400" :data="list" style="width: 100%" v-loading="loading">
       <el-tree-grid
         prop="cat_name"
         width="320px"
@@ -108,7 +108,8 @@ export default {
         value: "cat_id",
         label: "cat_name",
         children: "children"
-      }
+      },
+      loading: true
     };
   },
   created() {
@@ -159,6 +160,7 @@ export default {
       // console.log(this.list);
 
       this.total = res.data.data.total;
+      this.loading = false;
     },
     // 分页的相关方法
     handleSizeChange(val) {
