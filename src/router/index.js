@@ -8,6 +8,7 @@ import Roles from '../components/roles.vue'
 import Goods from '../components/goods.vue'
 import Goodsadd from '../components/goodsadd.vue'
 import Params from '../components/params.vue'
+import Goodscate from '../components/goodscate.vue'
 import {
   Message
 } from 'element-ui';
@@ -53,16 +54,21 @@ const router = new Router({
         name: 'params',
         path: '/params',
         component: Params
+      },
+      {
+        name:'goodscate',
+        path:'/categories',
+        component:Goodscate
       }]
     }
   ]
 })
 router.beforeEach((to, from, next) => {
-  if(to.name==='login'){
+  if (to.name === 'login') {
     next()
-  }else{
+  } else {
     const token = localStorage.getItem("token");
-    if(!token){
+    if (!token) {
       Message.warning('请先登录')
       router.push({
         name: 'login'
@@ -72,5 +78,5 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
-  
+
 export default router;
