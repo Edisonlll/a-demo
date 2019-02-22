@@ -2,7 +2,7 @@
   <el-card class="box">
     <cus-bread level1="权限管理" level2="角色列表"></cus-bread>
     <el-button type="primary" plain @click="showRole()" class="addrole">添加角色</el-button>
-    <el-table :data="roles" style="width: 100%" height="300px" v-loading="loading">
+    <el-table :data="roles" style="width: 100%" height="300px" v-loading="loading" @expand-change="fn1">
       <el-table-column type="expand" width="80">
         <template slot-scope="scope">
           <el-row class="level1" v-for="item1 in scope.row.children" :key="item1.id">
@@ -96,6 +96,14 @@ export default {
     this.getRolesTable();
   },
   methods: {
+    fn1(row,expandedRows){
+      if(expandedRows.length>1){
+        expandedRows.shift()
+      }
+      // console.log(row);
+      // console.log(expandedRows);
+      
+    },
     async setRights() {
       const arr1 = this.$refs.treeDom.getCheckedKeys();
       // console.log(arr1);

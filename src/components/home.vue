@@ -18,7 +18,7 @@
         <el-menu
           :unique-opened="true"
           :router="true"
-          default-active="2"
+          :default-active="this.$route.name"
           class="el-menu-vertical-demo"
         >
           <el-submenu :index="item1.order+''" v-for="(item1) in menus" :key="item1.id">
@@ -47,9 +47,7 @@ export default {
       menus: []
     };
   },
-  beforeMount() {
-    
-  },
+  beforeMount() {},
   created() {
     this.getmenu();
   },

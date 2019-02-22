@@ -116,6 +116,7 @@ export default {
     this.getGoodsCate();
   },
   methods: {
+    
     // 添加分类 - 发送请求
     async addCate() {
       if (this.selectedOptions.length === 0) {
