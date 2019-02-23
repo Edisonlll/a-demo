@@ -8,11 +8,27 @@ function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
-
+const createLintingRule = () => ({
+  test: /\.(js|vue)$/,
+  loader: 'eslint-loader',
+  enforce: 'pre',
+  include: [resolve('src'), resolve('test')],
+  options: {
+    formatter: require('eslint-friendly-formatter'),
+    emitWarning: !config.dev.showEslintErrorsInOverlay
+  }
+})
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
+  entry: {
+    app: './src/main.js'
+  },
   externals: {
+    // jquery: 'jQuery'
+
+    // key->js的包名->package.json
+    // value->该包暴露给全局作用域内的变量名
     "vue": "Vue",
     "vue-router": "VueRouter",
     "element-ui": "ELEMENT",
@@ -20,15 +36,12 @@ module.exports = {
     "moment": "moment",
     "echarts": "echarts"
   },
-  entry: {
-    app: './src/main.js'
-  },
+
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
+    publicPath: process.env.NODE_ENV === 'production' ?
+      config.build.assetsPublicPath : config.dev.assetsPublicPath
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -39,6 +52,7 @@ module.exports = {
   },
   module: {
     rules: [
+      // ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
         test: /\.vue$/,
         loader: 'vue-loader',
