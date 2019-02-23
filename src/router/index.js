@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
 const  Login = () => import ('../components/login.vue')
 const  Home = () => import ('../components/home.vue')
 const  Users = () => import ('../components/users.vue')
@@ -14,9 +14,9 @@ const  Reports = () => import ('../components/reports.vue')
 import {
   Message
 } from 'element-ui';
-Vue.use(Router)
+Vue.use(VueRouter)
 
-const router = new Router({
+const router = new VueRouter({
   routes: [
     {
       path: '/login',

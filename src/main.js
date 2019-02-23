@@ -6,12 +6,11 @@ import router from './router'
 import './assets/css/base.css'
 import moment from 'moment'
 Vue.config.productionTip = false
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+import ELEMENT from 'element-ui'
 import CusBread from './components/cusBread.vue'
 import HttpServer from './http'
 Vue.use(HttpServer)
-Vue.use(ElementUI)
+Vue.use(ELEMENT)
 Vue.filter('fmtdate', (v) => {
  return moment(v).format('YYYY-MM-DD')
 })

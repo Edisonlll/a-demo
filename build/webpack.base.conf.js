@@ -4,7 +4,7 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
@@ -12,6 +12,14 @@ function resolve (dir) {
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
+  externals: {
+    "vue": "Vue",
+    "vue-router": "VueRouter",
+    "element-ui": "ELEMENT",
+    "axios": "axios",
+    "moment": "moment",
+    "echarts": "echarts"
+  },
   entry: {
     app: './src/main.js'
   },
